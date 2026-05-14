@@ -6,19 +6,31 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct ContentView: View {
+    @State private var splashOpacity: Double = 1.0
+
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        ZStack {
+            WaitingScreenView()
+
+            SplashScreenView()
+                .opacity(splashOpacity)
+                .allowsHitTesting(splashOpacity > 0)
         }
-        .padding()
+        .onAppear {
+            Task {
+                try? await Task.sleep(for: .seconds(3))
+                withAnimation(.easeOut(duration: 0.8)) {
+                    splashOpacity = 0
+                }
+            }
+        }
     }
 }
 
 #Preview {
     ContentView()
+        .modelContainer(for: ImageItem.self, inMemory: true)
 }
