@@ -21,6 +21,7 @@ struct ImageSettingsView: View {
     @State private var showError = false
     @State private var errorMessage = ""
     @State private var showFilePicker = false
+    @State private var showPhotoPicker = false
     
     var body: some View {
         NavigationStack {
@@ -68,9 +69,9 @@ struct ImageSettingsView: View {
                 
                 ToolbarItem(placement: .primaryAction) {
                     Menu {
-                        PhotosPicker(selection: $selectedItems,
-                                    maxSelectionCount: 10,
-                                    matching: .images) {
+                        Button {
+                            showPhotoPicker = true
+                        } label: {
                             Label("Photo Library", systemImage: "photo.on.rectangle")
                         }
                         Button {
@@ -89,6 +90,10 @@ struct ImageSettingsView: View {
             } message: {
                 Text(errorMessage)
             }
+            .photosPicker(isPresented: $showPhotoPicker,
+                          selection: $selectedItems,
+                          maxSelectionCount: 10,
+                          matching: .images)
             .fileImporter(
                 isPresented: $showFilePicker,
                 allowedContentTypes: [.image],
@@ -113,11 +118,12 @@ struct ImageSettingsView: View {
             Text("Add images from your photo library or the Files app to display in the slideshow")
         } actions: {
             HStack(spacing: 16) {
-                PhotosPicker(selection: $selectedItems,
-                            maxSelectionCount: 10,
-                            matching: .images) {
+                Button {
+                    showPhotoPicker = true
+                } label: {
                     Label("Photo Library", systemImage: "photo.on.rectangle")
                         .font(.title3)
+                        .frame(width: 165)
                 }
                 .buttonStyle(.borderedProminent)
 
@@ -126,6 +132,7 @@ struct ImageSettingsView: View {
                 } label: {
                     Label("Files", systemImage: "folder")
                         .font(.title3)
+                        .frame(width: 165)
                 }
                 .buttonStyle(.borderedProminent)
             }
@@ -349,7 +356,7 @@ struct ImageCard: View {
         VStack(spacing: 8) {
             Image(uiImage: image)
                 .resizable()
-                .scaledToFill()
+                .scaledToFit()
                 .frame(height: 200)
                 .clipped()
                 .cornerRadius(12)

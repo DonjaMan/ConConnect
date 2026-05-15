@@ -19,6 +19,7 @@ struct WaitingScreenView: View {
     @State private var showingImageSettings = false
     @State private var opacity: Double = 1.0
     @State private var secretTapCount = 0
+    @State private var titleColor: Color = .white
     
     // Persistent settings using AppStorage
     @AppStorage(AppStorageKeys.slideInterval) private var slideInterval = AppConfiguration.defaultSlideInterval
@@ -28,7 +29,11 @@ struct WaitingScreenView: View {
     @AppStorage(AppStorageKeys.companyNameSize) private var companyNameSize = AppConfiguration.defaultCompanyNameSize
     @AppStorage(AppStorageKeys.subtitleSize) private var subtitleSize = AppConfiguration.defaultSubtitleSize
     @AppStorage(AppStorageKeys.glassFrameEnabled) private var glassFrameEnabled = AppConfiguration.defaultGlassFrameEnabled
+    @AppStorage(AppStorageKeys.frostedFrameEnabled) private var frostedFrameEnabled = AppConfiguration.defaultFrostedFrameEnabled
     @AppStorage(AppStorageKeys.bannerSize) private var bannerSize = AppConfiguration.defaultBannerSize
+    @AppStorage(AppStorageKeys.titleFont) private var titleFont = AppConfiguration.defaultTitleFont
+    @AppStorage(AppStorageKeys.subtitleFont) private var subtitleFont = AppConfiguration.defaultSubtitleFont
+    @AppStorage(AppStorageKeys.signUpButtonColor) private var signUpButtonColor = AppConfiguration.signUpButtonColor
     
     private let config = AppConfiguration.self
     
@@ -41,6 +46,9 @@ struct WaitingScreenView: View {
         } else {
             return []
         }
+    }
+    var savedColor: Color {
+        Color(hex: signUpButtonColor) ?? .blue
     }
     
     var body: some View {
@@ -61,6 +69,7 @@ struct WaitingScreenView: View {
                 .ignoresSafeArea()
                 .onReceive(Timer.publish(every: slideInterval, on: .main, in: .common).autoconnect()) { _ in
                     currentImageIndex = (currentImageIndex + 1) % allImages.count
+                    updateTitleColor()
                 }
             } else {
                 // Fallback if no images are configured
@@ -87,15 +96,17 @@ struct WaitingScreenView: View {
                         Spacer()
                         VStack(spacing: 8) {
                             Text(companyName)
-                                .font(.system(size: companyNameSize, weight: .bold))
-                                .foregroundStyle(.white)
+                                .font(.custom(titleFont, size: companyNameSize))
+//                                .font(.system(size: companyNameSize, weight: .bold))
+                                .foregroundStyle(titleColor)
                                 .shadow(color: .black.opacity(0.5), radius: 8, x: 0, y: 4)
                                 .lineLimit(2)
                                 .minimumScaleFactor(0.5)
                             
                             Text(companySubtitle)
-                                .font(.system(size: subtitleSize, weight: .medium))
-                                .foregroundStyle(.white.opacity(0.9))
+                                .font(.custom(subtitleFont, size: subtitleSize))
+//                                .font(.system(size: subtitleSize, weight: .medium))
+                                .foregroundStyle(titleColor.opacity(0.9))
                                 .shadow(color: .black.opacity(0.5), radius: 6, x: 0, y: 3)
                                 .lineLimit(1)
                                 .minimumScaleFactor(0.7)
@@ -106,6 +117,10 @@ struct WaitingScreenView: View {
                         .padding(.vertical, 20)
                         .background {
                             if glassFrameEnabled {
+                                RoundedRectangle(cornerRadius: 16)
+                                    .glassEffect(.clear ,in: .rect(cornerRadius: 16))
+                            }
+                            if frostedFrameEnabled {
                                 RoundedRectangle(cornerRadius: 16)
                                     .fill(.ultraThinMaterial)
                                     .shadow(color: .black.opacity(0.3), radius: 15, x: 0, y: 8)
@@ -134,12 +149,12 @@ struct WaitingScreenView: View {
                         Text(config.signUpButtonText)
                             .font(.system(size: 32, weight: .bold))
                     }
-                    .foregroundStyle(.white)
+                    .foregroundStyle(savedColor.contrastingTextColor)
                     .padding(.horizontal, 60)
                     .padding(.vertical, 28)
                     .background {
                         Capsule()
-                            .fill(.blue.gradient)
+                            .fill(savedColor.gradient)
                             .shadow(color: .black.opacity(0.4), radius: 15, x: 0, y: 8)
                     }
                 }
@@ -246,6 +261,24 @@ struct WaitingScreenView: View {
                     }
                 }
             }
+    }
+
+    private func updateTitleColor() {
+        guard !allImages.isEmpty else { return }
+        let image: UIImage?
+        switch allImages[currentImageIndex] {
+        case .asset(let name):
+            image = UIImage(named: name)
+        case .data(let data):
+            image = UIImage(data: data)
+        }
+        guard let img = image else { return }
+        let fullRect = CGRect(origin: .zero, size: img.size)
+        if let avg = img.averageColor(in: fullRect) {
+            withAnimation(.easeInOut(duration: 1.0)) {
+                titleColor = avg.contrastingTextColor
+            }
+        }
     }
 }
 

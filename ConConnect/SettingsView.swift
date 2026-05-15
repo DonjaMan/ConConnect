@@ -20,9 +20,16 @@ struct SettingsView: View {
     @AppStorage(AppStorageKeys.companyNameSize) private var companyNameSize = AppConfiguration.defaultCompanyNameSize
     @AppStorage(AppStorageKeys.subtitleSize) private var subtitleSize = AppConfiguration.defaultSubtitleSize
     @AppStorage(AppStorageKeys.glassFrameEnabled) private var glassFrameEnabled = AppConfiguration.defaultGlassFrameEnabled
+    @AppStorage(AppStorageKeys.frostedFrameEnabled) private var frostedFrameEnabled = AppConfiguration.defaultFrostedFrameEnabled
     @AppStorage(AppStorageKeys.bannerSize) private var bannerSize = AppConfiguration.defaultBannerSize
+    @AppStorage(AppStorageKeys.titleFont) private var titleFont = AppConfiguration.defaultTitleFont
+    @AppStorage(AppStorageKeys.subtitleFont) private var subtitleFont = AppConfiguration.defaultSubtitleFont
+    @AppStorage(AppStorageKeys.signUpButtonColor) private var signUpButtonColor = AppConfiguration.signUpButtonColor
     
     @State private var showingSaveConfirmation = false
+    var savedColor: Color {
+        Color(hex: signUpButtonColor) ?? .accentColor
+    }
     
     var body: some View {
         NavigationStack {
@@ -75,6 +82,10 @@ struct SettingsView: View {
                             .autocapitalization(.words)
                     }
                     
+                    FontPickerRow(label: "Title Font", selection: $titleFont)
+
+                    FontPickerRow(label: "Subtitle Font", selection: $subtitleFont)
+
                     VStack(alignment: .leading, spacing: 12) {
                         HStack {
                             Text("Company Name Size")
@@ -87,7 +98,7 @@ struct SettingsView: View {
                         }
                     }
                     .font(.headline)
-                    
+
                     VStack(alignment: .leading, spacing: 12) {
                         HStack {
                             Text("Subtitle Size")
@@ -121,6 +132,15 @@ struct SettingsView: View {
                                 .foregroundStyle(.secondary)
                         }
                     }
+                    Toggle(isOn: $frostedFrameEnabled) {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("Frosted Frame Background")
+                                .font(.headline)
+                            Text("Adds a frosted glass background behind the banner")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
+                    }
                 } header: {
                     Text("Company Banner")
                 } footer: {
@@ -142,6 +162,16 @@ struct SettingsView: View {
                     Text("Slideshow Settings")
                 } footer: {
                     Text("Time each image displays before transitioning to the next (3-15 seconds). Changes are saved automatically.")
+                }
+                Section {
+                    ColorPicker(selection: Binding(
+                        get: { savedColor },
+                        set: { newColor in signUpButtonColor = newColor.toHex() }
+                    )) {
+                       Text("SignUp Button Color")
+                    }
+                } header: {
+                    Text("SignUp Button Color")
                 }
                 Section {
                     Button {
@@ -178,6 +208,46 @@ struct SettingsView: View {
     private func testForm() {
         if let url = URL(string: formURL) {
             UIApplication.shared.open(url)
+        }
+    }
+}
+
+struct FontPickerRow: View {
+    let label: String
+    @Binding var selection: String
+
+    private var displayName: String {
+        for group in AppConfiguration.availableFonts {
+            for font in group.fonts {
+                if font.postScript == selection {
+                    return font.name
+                }
+            }
+        }
+        return selection
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(label)
+                .font(.headline)
+            Picker(label, selection: $selection) {
+                ForEach(AppConfiguration.availableFonts, id: \.family) { group in
+                    Section(group.family) {
+                        ForEach(group.fonts, id: \.postScript) { font in
+                            Text(font.name)
+                                .font(.custom(font.postScript, size: 17))
+                                .tag(font.postScript)
+                        }
+                    }
+                }
+            }
+            .pickerStyle(.menu)
+            .frame(maxWidth: .infinity, alignment: .leading)
+
+            Text("Preview")
+                .font(.custom(selection, size: 22))
+                .foregroundStyle(.secondary)
         }
     }
 }

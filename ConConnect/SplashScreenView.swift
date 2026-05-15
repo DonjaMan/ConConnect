@@ -8,23 +8,24 @@
 import SwiftUI
 
 struct SplashScreenView: View {
+    var dotRadius: CGFloat
     var body: some View {
         ZStack {
             Color.white
-            Image("CC3")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 250, height: 250)
-            ProgressView {
-                Text("Loading...")
-            }
-            .tint(.black)
-            .offset(x: 15, y: 150)
+            RotatingDotRing(
+                dotCount: 32,
+                radius: dotRadius,
+                dotSize: 15,
+                dotColor: .gray) {
+                    Image(.CC_3)
+                        .resizable()
+                        .frame(width: 250, height: 250)
+                }
         }
         .ignoresSafeArea()
     }
 }
 
 #Preview {
-    SplashScreenView()
+    SplashScreenView(dotRadius: 185)
 }

@@ -10,20 +10,22 @@ import SwiftData
 
 struct ContentView: View {
     @State private var splashOpacity: Double = 1.0
-
+    @State private var dotRadius: CGFloat = 185
+    
     var body: some View {
         ZStack {
             WaitingScreenView()
 
-            SplashScreenView()
+            SplashScreenView(dotRadius: dotRadius)
                 .opacity(splashOpacity)
                 .allowsHitTesting(splashOpacity > 0)
         }
         .onAppear {
             Task {
                 try? await Task.sleep(for: .seconds(3))
-                withAnimation(.easeOut(duration: 0.8)) {
+                withAnimation(.easeOut(duration: 1.0)) {
                     splashOpacity = 0
+                    dotRadius = 600
                 }
             }
         }

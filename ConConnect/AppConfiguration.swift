@@ -49,14 +49,54 @@ struct AppConfiguration {
     
     /// Default glass frame enabled state
     static let defaultGlassFrameEnabled: Bool = false
+    
+    /// Default frosted frame enabled state
+    static let defaultFrostedFrameEnabled: Bool = false
 
     /// Default banner size as a fraction of screen width (0.2 to 0.8)
     static let defaultBannerSize: Double = 0.33
-    
+
+    /// Default fonts for banner text
+    static let defaultTitleFont = "Montserrat-BoldItalic"
+    static let defaultSubtitleFont = "Montserrat-Regular"
+
+    /// Available custom fonts grouped by family
+    static let availableFonts: [(family: String, fonts: [(name: String, postScript: String)])] = [
+        ("Bebas Neue", [
+            ("Bebas Neue", "BebasNeue-Regular"),
+        ]),
+        ("Dancing Script", [
+            ("Dancing Script", "DancingScript-Regular"),
+            ("Dancing Script Bold", "DancingScript-Bold"),
+        ]),
+        ("Great Vibes", [
+            ("Great Vibes", "GreatVibes-Regular"),
+        ]),
+        ("Montserrat", [
+            ("Montserrat Thin", "Montserrat-Thin"),
+            ("Montserrat Thin Italic", "Montserrat-ThinItalic"),
+            ("Montserrat", "Montserrat-Regular"),
+            ("Montserrat Italic", "Montserrat-Italic"),
+            ("Montserrat Bold", "Montserrat-Bold"),
+            ("Montserrat Bold Italic", "Montserrat-BoldItalic"),
+        ]),
+        ("Oswald", [
+            ("Oswald", "Oswald-Regular"),
+            ("Oswald Medium", "Oswald-Medium"),
+            ("Oswald Bold", "Oswald-Bold"),
+        ]),
+        ("Satisfy", [
+            ("Satisfy", "Satisfy-Regular"),
+        ]),
+    ]
+
     // MARK: - UI Configuration
     
     /// Sign-up button text (optimized for iPad landscape viewing)
     static let signUpButtonText = "Sign Up for Mailing List"
+    
+    /// Sign-up button Color
+    static let signUpButtonColor = "#FFFFFF"
     
     /// Navigation bar title for the web form
     static let formTitle = "Sign Up"
@@ -73,6 +113,10 @@ enum AppStorageKeys {
     static let companyNameSize = "companyNameSize"
     static let subtitleSize = "subtitleSize"
     static let glassFrameEnabled = "glassFrameEnabled"
+    static let frostedFrameEnabled = "frostedFrameEnabled"
     static let bannerSize = "bannerSize"
+    static let titleFont = "titleFont"
+    static let subtitleFont = "subtitleFont"
+    static let signUpButtonColor = "signUpButtonColor"
 }
 
