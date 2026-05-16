@@ -21,6 +21,11 @@
 		4B1B00F82FB7A96200A7E89A /* Oswald-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4B1B00F52FB7A96200A7E89A /* Oswald-Bold.ttf */; };
 		4B1B00F92FB7A96200A7E89A /* Oswald-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4B1B00F72FB7A96200A7E89A /* Oswald-Regular.ttf */; };
 		4B1B00FA2FB7A96200A7E89A /* Oswald-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4B1B00F62FB7A96200A7E89A /* Oswald-Medium.ttf */; };
+		4B1B01052FB87EFB00A7E89A /* StoryScript-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4B1B01042FB87EFB00A7E89A /* StoryScript-Regular.ttf */; };
+		4B1B01092FB87F0E00A7E89A /* Orbitron-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4B1B01062FB87F0E00A7E89A /* Orbitron-Bold.ttf */; };
+		4B1B010A2FB87F0E00A7E89A /* Orbitron-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4B1B01072FB87F0E00A7E89A /* Orbitron-Regular.ttf */; };
+		4B1B010B2FB87F0E00A7E89A /* Orbitron-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4B1B01082FB87F0E00A7E89A /* Orbitron-SemiBold.ttf */; };
+		4B1B010D2FB87F1C00A7E89A /* Limelight-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4B1B010C2FB87F1C00A7E89A /* Limelight-Regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +43,11 @@
 		4B1B00F52FB7A96200A7E89A /* Oswald-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Oswald-Bold.ttf"; sourceTree = "<group>"; };
 		4B1B00F62FB7A96200A7E89A /* Oswald-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Oswald-Medium.ttf"; sourceTree = "<group>"; };
 		4B1B00F72FB7A96200A7E89A /* Oswald-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Oswald-Regular.ttf"; sourceTree = "<group>"; };
+		4B1B01042FB87EFB00A7E89A /* StoryScript-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "StoryScript-Regular.ttf"; sourceTree = "<group>"; };
+		4B1B01062FB87F0E00A7E89A /* Orbitron-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Orbitron-Bold.ttf"; sourceTree = "<group>"; };
+		4B1B01072FB87F0E00A7E89A /* Orbitron-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Orbitron-Regular.ttf"; sourceTree = "<group>"; };
+		4B1B01082FB87F0E00A7E89A /* Orbitron-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Orbitron-SemiBold.ttf"; sourceTree = "<group>"; };
+		4B1B010C2FB87F1C00A7E89A /* Limelight-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Limelight-Regular.ttf"; sourceTree = "<group>"; };
 		4BE0096B2FA292F80078A6F6 /* ConConnect.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ConConnect.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -82,14 +92,19 @@
 				4B1B00EC2FB7A87F00A7E89A /* Montserrat-Thin.ttf */,
 				4B1B00F52FB7A96200A7E89A /* Oswald-Bold.ttf */,
 				4B1B00F62FB7A96200A7E89A /* Oswald-Medium.ttf */,
+				4B1B010C2FB87F1C00A7E89A /* Limelight-Regular.ttf */,
 				4B1B00F72FB7A96200A7E89A /* Oswald-Regular.ttf */,
 				4B1B00ED2FB7A87F00A7E89A /* Montserrat-ThinItalic.ttf */,
 				4B1B00E12FB7A5D500A7E89A /* Satisfy-Regular.ttf */,
+				4B1B01062FB87F0E00A7E89A /* Orbitron-Bold.ttf */,
+				4B1B01072FB87F0E00A7E89A /* Orbitron-Regular.ttf */,
+				4B1B01082FB87F0E00A7E89A /* Orbitron-SemiBold.ttf */,
 				4B1B00E52FB7A63900A7E89A /* DancingScript-Regular.ttf */,
 				4B1B00E72FB7A7F500A7E89A /* GreatVibes-Regular.ttf */,
 				4B1B00E32FB7A62500A7E89A /* DancingScript-Bold.ttf */,
 				4B1B00DA2FB79C1800A7E89A /* BebasNeue-Regular.ttf */,
 				4B1B00F32FB7A91300A7E89A /* Montserrat-BoldItalic.ttf */,
+				4B1B01042FB87EFB00A7E89A /* StoryScript-Regular.ttf */,
 			);
 			path = Fonts;
 			sourceTree = "<group>";
@@ -175,8 +190,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4B1B01052FB87EFB00A7E89A /* StoryScript-Regular.ttf in Resources */,
 				4B1B00F42FB7A91300A7E89A /* Montserrat-BoldItalic.ttf in Resources */,
 				4B1B00EE2FB7A87F00A7E89A /* Montserrat-Regular.ttf in Resources */,
+				4B1B010D2FB87F1C00A7E89A /* Limelight-Regular.ttf in Resources */,
 				4B1B00EF2FB7A87F00A7E89A /* Montserrat-Thin.ttf in Resources */,
 				4B1B00F02FB7A87F00A7E89A /* Montserrat-Bold.ttf in Resources */,
 				4B1B00F12FB7A87F00A7E89A /* Montserrat-ThinItalic.ttf in Resources */,
@@ -188,6 +205,9 @@
 				4B1B00E22FB7A5D500A7E89A /* Satisfy-Regular.ttf in Resources */,
 				4B1B00E42FB7A62500A7E89A /* DancingScript-Bold.ttf in Resources */,
 				4B1B00DB2FB79C1800A7E89A /* BebasNeue-Regular.ttf in Resources */,
+				4B1B01092FB87F0E00A7E89A /* Orbitron-Bold.ttf in Resources */,
+				4B1B010A2FB87F0E00A7E89A /* Orbitron-Regular.ttf in Resources */,
+				4B1B010B2FB87F0E00A7E89A /* Orbitron-SemiBold.ttf in Resources */,
 				4B1B00E82FB7A7F500A7E89A /* GreatVibes-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

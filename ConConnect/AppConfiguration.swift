@@ -47,11 +47,7 @@ struct AppConfiguration {
     /// Default subtitle font size
     static let defaultSubtitleSize: Double = 24.0
     
-    /// Default glass frame enabled state
-    static let defaultGlassFrameEnabled: Bool = false
-    
-    /// Default frosted frame enabled state
-    static let defaultFrostedFrameEnabled: Bool = false
+    static let bannerBackgroundStyle: BannerBackgroundStyle = .frosted
 
     /// Default banner size as a fraction of screen width (0.2 to 0.8)
     static let defaultBannerSize: Double = 0.33
@@ -72,6 +68,9 @@ struct AppConfiguration {
         ("Great Vibes", [
             ("Great Vibes", "GreatVibes-Regular"),
         ]),
+        ("LimeLight", [
+           ("LimeLight", "LimeLight-Regular"),
+        ]),
         ("Montserrat", [
             ("Montserrat Thin", "Montserrat-Thin"),
             ("Montserrat Thin Italic", "Montserrat-ThinItalic"),
@@ -79,6 +78,11 @@ struct AppConfiguration {
             ("Montserrat Italic", "Montserrat-Italic"),
             ("Montserrat Bold", "Montserrat-Bold"),
             ("Montserrat Bold Italic", "Montserrat-BoldItalic"),
+        ]),
+        ("Orbitron", [
+           ("Orbitron", "Orbitron-Regular"),
+           ("Orbitron SemiBold", "Orbitron-SemiBold"),
+           ("Orbitron Bold", "Orbitron-Bold"),
         ]),
         ("Oswald", [
             ("Oswald", "Oswald-Regular"),
@@ -88,6 +92,10 @@ struct AppConfiguration {
         ("Satisfy", [
             ("Satisfy", "Satisfy-Regular"),
         ]),
+        ("StoryScript", [
+            ("StoryScript", "StoryScript-Regular"),
+        ]),
+
     ]
 
     // MARK: - UI Configuration
@@ -95,8 +103,14 @@ struct AppConfiguration {
     /// Sign-up button text (optimized for iPad landscape viewing)
     static let signUpButtonText = "Sign Up for Mailing List"
     
+    /// Enable SignUP Button ColorBeam Effect
+    static let signUpButtonColorBeamEnabled: Bool = false
+    
     /// Sign-up button Color
     static let signUpButtonColor = "#FFFFFF"
+    
+    /// Signup Button Background Style
+    static let signupButtonBackgroundStyle: SignUpButtonStyle = .solid
     
     /// Navigation bar title for the web form
     static let formTitle = "Sign Up"
@@ -112,11 +126,27 @@ enum AppStorageKeys {
     static let companySubtitle = "companySubtitle"
     static let companyNameSize = "companyNameSize"
     static let subtitleSize = "subtitleSize"
-    static let glassFrameEnabled = "glassFrameEnabled"
-    static let frostedFrameEnabled = "frostedFrameEnabled"
+    static let bannerBackgroundStyle = "bannerBackgroundStyle"
     static let bannerSize = "bannerSize"
     static let titleFont = "titleFont"
     static let subtitleFont = "subtitleFont"
     static let signUpButtonColor = "signUpButtonColor"
+    static let signUpButtonColorBeamEnabled = "signUpButtonColorBeamEnabled"
+    static let signupButtonBackgroundStyle = "signupButtonBackgroundStyle"
+}
+
+/// Enum for Signup Button Backround style
+enum SignUpButtonStyle: String, Codable, CaseIterable {
+    case glass
+    case solid
+    case frosted
+    
+}
+
+/// Enum for Banner Background style
+enum BannerBackgroundStyle: String, Codable, CaseIterable {
+    case glass
+    case frosted
+    case solid
 }
 

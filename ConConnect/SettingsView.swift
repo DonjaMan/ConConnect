@@ -19,12 +19,13 @@ struct SettingsView: View {
     @AppStorage(AppStorageKeys.companySubtitle) private var companySubtitle = AppConfiguration.defaultCompanySubtitle
     @AppStorage(AppStorageKeys.companyNameSize) private var companyNameSize = AppConfiguration.defaultCompanyNameSize
     @AppStorage(AppStorageKeys.subtitleSize) private var subtitleSize = AppConfiguration.defaultSubtitleSize
-    @AppStorage(AppStorageKeys.glassFrameEnabled) private var glassFrameEnabled = AppConfiguration.defaultGlassFrameEnabled
-    @AppStorage(AppStorageKeys.frostedFrameEnabled) private var frostedFrameEnabled = AppConfiguration.defaultFrostedFrameEnabled
     @AppStorage(AppStorageKeys.bannerSize) private var bannerSize = AppConfiguration.defaultBannerSize
     @AppStorage(AppStorageKeys.titleFont) private var titleFont = AppConfiguration.defaultTitleFont
     @AppStorage(AppStorageKeys.subtitleFont) private var subtitleFont = AppConfiguration.defaultSubtitleFont
     @AppStorage(AppStorageKeys.signUpButtonColor) private var signUpButtonColor = AppConfiguration.signUpButtonColor
+    @AppStorage(AppStorageKeys.signUpButtonColorBeamEnabled) private var signUpButtonColorBeamEnabled = AppConfiguration.signUpButtonColorBeamEnabled
+    @AppStorage(AppStorageKeys.signupButtonBackgroundStyle) private var signupButtonBackgroundStyle = AppConfiguration.signupButtonBackgroundStyle
+    @AppStorage(AppStorageKeys.bannerBackgroundStyle) private var bannerBackgroyndStyle = AppConfiguration.bannerBackgroundStyle
     
     @State private var showingSaveConfirmation = false
     var savedColor: Color {
@@ -123,22 +124,21 @@ struct SettingsView: View {
                         }
                     }
                     .font(.headline)
-                    Toggle(isOn: $glassFrameEnabled) {
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text("Glass Frame Background")
-                                .font(.headline)
-                            Text("Adds a frosted glass background behind the banner")
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
-                        }
-                    }
-                    Toggle(isOn: $frostedFrameEnabled) {
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text("Frosted Frame Background")
-                                .font(.headline)
-                            Text("Adds a frosted glass background behind the banner")
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
+                    Picker(selection: $bannerBackgroyndStyle) {
+                        Text("Glass").tag(BannerBackgroundStyle.glass)
+                        Text("Frosted").tag(BannerBackgroundStyle.frosted)
+                        Text("Solid").tag(BannerBackgroundStyle.solid)
+                    } label: {
+                        VStack(alignment: .leading,spacing: 12){
+                            Text("Banner Background Style")
+                            HStack{
+                                Text("Notice!!")
+                                    .foregroundStyle(.red)
+                                    .font(.callout.bold())
+                                Text("Solid Background uses Signup Button color")
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                            }
                         }
                     }
                 } header: {
@@ -168,10 +168,46 @@ struct SettingsView: View {
                         get: { savedColor },
                         set: { newColor in signUpButtonColor = newColor.toHex() }
                     )) {
-                       Text("SignUp Button Color")
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("SignUp Button Color")
+                                .font(.headline)
+                            Text("Sets the background color of Signup Button")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                    Picker(selection: $signupButtonBackgroundStyle) {
+                        Text("Glass").tag(SignUpButtonStyle.glass)
+                        Text("Solid").tag(SignUpButtonStyle.solid)
+                        Text("Frosted").tag(SignUpButtonStyle.frosted)
+                    } label: {
+                        VStack(alignment: .leading, spacing: 4 ){
+                            Text("Signup Button Background Style")
+                                .font(.headline)
+                            Text("Sets background style of Signup Button")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                    Toggle(isOn: $signUpButtonColorBeamEnabled) {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("Signup Button Beam Effect")
+                                .font(.headline)
+                            Text("Adds a rotating color beam effect to signup Button")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                            HStack {
+                                Text("Note!!")
+                                    .foregroundStyle(.red)
+                                    .font(.callout.bold())
+                                Text("Beam works better with darker background colors.")
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                            }
+                        }
                     }
                 } header: {
-                    Text("SignUp Button Color")
+                    Text("SignUp Button")
                 }
                 Section {
                     Button {

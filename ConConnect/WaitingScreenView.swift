@@ -20,6 +20,9 @@ struct WaitingScreenView: View {
     @State private var opacity: Double = 1.0
     @State private var secretTapCount = 0
     @State private var titleColor: Color = .white
+    @State private var applyGlass: Bool = false
+    @State private var buttonBackroundOpacity: CGFloat = 0.3
+    @State private var bannerBackroundOpacity: CGFloat = 0.0
     
     // Persistent settings using AppStorage
     @AppStorage(AppStorageKeys.slideInterval) private var slideInterval = AppConfiguration.defaultSlideInterval
@@ -28,12 +31,13 @@ struct WaitingScreenView: View {
     @AppStorage(AppStorageKeys.companySubtitle) private var companySubtitle = AppConfiguration.defaultCompanySubtitle
     @AppStorage(AppStorageKeys.companyNameSize) private var companyNameSize = AppConfiguration.defaultCompanyNameSize
     @AppStorage(AppStorageKeys.subtitleSize) private var subtitleSize = AppConfiguration.defaultSubtitleSize
-    @AppStorage(AppStorageKeys.glassFrameEnabled) private var glassFrameEnabled = AppConfiguration.defaultGlassFrameEnabled
-    @AppStorage(AppStorageKeys.frostedFrameEnabled) private var frostedFrameEnabled = AppConfiguration.defaultFrostedFrameEnabled
     @AppStorage(AppStorageKeys.bannerSize) private var bannerSize = AppConfiguration.defaultBannerSize
     @AppStorage(AppStorageKeys.titleFont) private var titleFont = AppConfiguration.defaultTitleFont
     @AppStorage(AppStorageKeys.subtitleFont) private var subtitleFont = AppConfiguration.defaultSubtitleFont
     @AppStorage(AppStorageKeys.signUpButtonColor) private var signUpButtonColor = AppConfiguration.signUpButtonColor
+    @AppStorage(AppStorageKeys.signUpButtonColorBeamEnabled) private var signUpButtonColorBeamEnabled = AppConfiguration.signUpButtonColorBeamEnabled
+    @AppStorage(AppStorageKeys.signupButtonBackgroundStyle) private var signupButtonBackgroundStyle = AppConfiguration.signupButtonBackgroundStyle
+    @AppStorage(AppStorageKeys.bannerBackgroundStyle) private var bannerBackgroyndStyle = AppConfiguration.bannerBackgroundStyle
     
     private let config = AppConfiguration.self
     
@@ -97,16 +101,14 @@ struct WaitingScreenView: View {
                         VStack(spacing: 8) {
                             Text(companyName)
                                 .font(.custom(titleFont, size: companyNameSize))
-//                                .font(.system(size: companyNameSize, weight: .bold))
-                                .foregroundStyle(titleColor)
+                                .foregroundStyle(.white)
                                 .shadow(color: .black.opacity(0.5), radius: 8, x: 0, y: 4)
                                 .lineLimit(2)
                                 .minimumScaleFactor(0.5)
                             
                             Text(companySubtitle)
                                 .font(.custom(subtitleFont, size: subtitleSize))
-//                                .font(.system(size: subtitleSize, weight: .medium))
-                                .foregroundStyle(titleColor.opacity(0.9))
+                                .foregroundStyle(.white.opacity(0.9))
                                 .shadow(color: .black.opacity(0.5), radius: 6, x: 0, y: 3)
                                 .lineLimit(1)
                                 .minimumScaleFactor(0.7)
@@ -116,13 +118,24 @@ struct WaitingScreenView: View {
                         .padding(.horizontal, 30)
                         .padding(.vertical, 20)
                         .background {
-                            if glassFrameEnabled {
+                            switch bannerBackgroyndStyle {
+                            case .glass:
                                 RoundedRectangle(cornerRadius: 16)
-                                    .glassEffect(.clear ,in: .rect(cornerRadius: 16))
-                            }
-                            if frostedFrameEnabled {
+                                    .applyGlassRect(true, color: savedColor.opacity(bannerBackroundOpacity))
+//                                    .glassEffect(.clear ,in: .rect(cornerRadius: 16))
+                                    .shadow(color: .black.opacity(0.3), radius: 15, x: 0, y: 8)
+                            case .frosted:
                                 RoundedRectangle(cornerRadius: 16)
                                     .fill(.ultraThinMaterial)
+                                    .overlay {
+                                        RoundedRectangle(cornerRadius: 16)
+                                            .fill(savedColor.opacity(bannerBackroundOpacity))
+                                            .blendMode(.plusLighter)
+                                    }
+                                    .shadow(color: .black.opacity(0.3), radius: 15, x: 0, y: 8)
+                            case .solid:
+                                RoundedRectangle(cornerRadius: 16)
+                                    .fill(savedColor.gradient.opacity(0.7))
                                     .shadow(color: .black.opacity(0.3), radius: 15, x: 0, y: 8)
                             }
                         }
@@ -152,10 +165,31 @@ struct WaitingScreenView: View {
                     .foregroundStyle(savedColor.contrastingTextColor)
                     .padding(.horizontal, 60)
                     .padding(.vertical, 28)
+                    .borderBeam(
+                        border: .white,
+                        hideFadeBorder: false,
+                        beam: [.white, .yellow,.teal, .blue, .teal,.yellow, .white],
+                        beamBlur: 20,
+                        cornerRadius: 35,
+                        isEnabled: signUpButtonColorBeamEnabled
+                    )
                     .background {
-                        Capsule()
-                            .fill(savedColor.gradient)
-                            .shadow(color: .black.opacity(0.4), radius: 15, x: 0, y: 8)
+                        switch signupButtonBackgroundStyle {
+                        case .solid:
+                            Capsule()
+                                .fill(savedColor.gradient)
+                                .shadow(color: .black.opacity(0.4), radius: 15, x: 0, y: 8)
+                        case .glass:
+                            Capsule()
+                                .fill(.clear)
+                                .applyGlass(true, color: savedColor.opacity(buttonBackroundOpacity))
+                                .shadow(color: .black.opacity(0.4), radius: 15, x: 0, y: 8)
+                        case .frosted:
+                            Capsule()
+                                .fill(.ultraThinMaterial)
+                                .shadow(color: .black.opacity(0.4), radius: 15, x: 0, y: 8)
+                            
+                        }
                     }
                 }
                 .scaleEffect(opacity)
@@ -277,6 +311,8 @@ struct WaitingScreenView: View {
         if let avg = img.averageColor(in: fullRect) {
             withAnimation(.easeInOut(duration: 1.0)) {
                 titleColor = avg.contrastingTextColor
+                buttonBackroundOpacity = avg.contrastingBackroundOpacity
+                bannerBackroundOpacity = avg.contrastingBackroundOpacity2
             }
         }
     }

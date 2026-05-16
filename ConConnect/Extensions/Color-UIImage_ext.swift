@@ -54,6 +54,12 @@ extension UIColor {
     var contrastingTextColor: Color {
         return isLight ? .black.opacity(0.7) : .white
     }
+    var contrastingBackroundOpacity: CGFloat {
+        return isLight ? 0.8 : 0.15
+    }
+    var contrastingBackroundOpacity2: CGFloat {
+        return isLight ? 0.7 : 0.0
+    }
 }
 extension Image {
     func asUIImage(size: CGSize) -> UIImage {
@@ -126,6 +132,28 @@ extension Color {
     /// Returns either .white or .black depending on contrast
     var contrastingTextColor: Color {
         isDark ? .white : .black
+    }
+    var contrastingOpacity: CGFloat {
+        isDark ? 0.3 : 0.8
+    }
+}
+
+extension View {
+    @ViewBuilder
+    func applyGlass(_ condition: Bool, color: Color) -> some View {
+        if condition {
+            self.glassEffect(.clear.tint(color), in: .capsule)
+        } else {
+            self
+        }
+    }
+    @ViewBuilder
+    func applyGlassRect(_ condition: Bool, color: Color) -> some View {
+        if condition {
+            self.glassEffect(.clear.tint(color), in: .rect(cornerRadius: 16))
+        } else {
+            self
+        }
     }
 }
 
