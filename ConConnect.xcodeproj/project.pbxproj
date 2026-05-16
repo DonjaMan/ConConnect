@@ -26,6 +26,9 @@
 		4B1B010A2FB87F0E00A7E89A /* Orbitron-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4B1B01072FB87F0E00A7E89A /* Orbitron-Regular.ttf */; };
 		4B1B010B2FB87F0E00A7E89A /* Orbitron-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4B1B01082FB87F0E00A7E89A /* Orbitron-SemiBold.ttf */; };
 		4B1B010D2FB87F1C00A7E89A /* Limelight-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4B1B010C2FB87F1C00A7E89A /* Limelight-Regular.ttf */; };
+		4B1B01112FB9115500A7E89A /* Coiny-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4B1B01102FB9115500A7E89A /* Coiny-Regular.ttf */; };
+		4B1B01132FB9117800A7E89A /* Lobster-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4B1B01122FB9117800A7E89A /* Lobster-Regular.ttf */; };
+		4B1B01152FB911AB00A7E89A /* ImperialScript-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4B1B01142FB911AB00A7E89A /* ImperialScript-Regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +51,9 @@
 		4B1B01072FB87F0E00A7E89A /* Orbitron-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Orbitron-Regular.ttf"; sourceTree = "<group>"; };
 		4B1B01082FB87F0E00A7E89A /* Orbitron-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Orbitron-SemiBold.ttf"; sourceTree = "<group>"; };
 		4B1B010C2FB87F1C00A7E89A /* Limelight-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Limelight-Regular.ttf"; sourceTree = "<group>"; };
+		4B1B01102FB9115500A7E89A /* Coiny-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Coiny-Regular.ttf"; sourceTree = "<group>"; };
+		4B1B01122FB9117800A7E89A /* Lobster-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lobster-Regular.ttf"; sourceTree = "<group>"; };
+		4B1B01142FB911AB00A7E89A /* ImperialScript-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ImperialScript-Regular.ttf"; sourceTree = "<group>"; };
 		4BE0096B2FA292F80078A6F6 /* ConConnect.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ConConnect.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -86,6 +92,8 @@
 		4B1B00DC2FB79C5500A7E89A /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				4B1B01142FB911AB00A7E89A /* ImperialScript-Regular.ttf */,
+				4B1B01102FB9115500A7E89A /* Coiny-Regular.ttf */,
 				4B1B00E92FB7A87F00A7E89A /* Montserrat-Bold.ttf */,
 				4B1B00EA2FB7A87F00A7E89A /* Montserrat-Italic.ttf */,
 				4B1B00EB2FB7A87F00A7E89A /* Montserrat-Regular.ttf */,
@@ -94,6 +102,7 @@
 				4B1B00F62FB7A96200A7E89A /* Oswald-Medium.ttf */,
 				4B1B010C2FB87F1C00A7E89A /* Limelight-Regular.ttf */,
 				4B1B00F72FB7A96200A7E89A /* Oswald-Regular.ttf */,
+				4B1B01122FB9117800A7E89A /* Lobster-Regular.ttf */,
 				4B1B00ED2FB7A87F00A7E89A /* Montserrat-ThinItalic.ttf */,
 				4B1B00E12FB7A5D500A7E89A /* Satisfy-Regular.ttf */,
 				4B1B01062FB87F0E00A7E89A /* Orbitron-Bold.ttf */,
@@ -201,9 +210,12 @@
 				4B1B00F82FB7A96200A7E89A /* Oswald-Bold.ttf in Resources */,
 				4B1B00F92FB7A96200A7E89A /* Oswald-Regular.ttf in Resources */,
 				4B1B00FA2FB7A96200A7E89A /* Oswald-Medium.ttf in Resources */,
+				4B1B01152FB911AB00A7E89A /* ImperialScript-Regular.ttf in Resources */,
 				4B1B00E62FB7A63900A7E89A /* DancingScript-Regular.ttf in Resources */,
 				4B1B00E22FB7A5D500A7E89A /* Satisfy-Regular.ttf in Resources */,
 				4B1B00E42FB7A62500A7E89A /* DancingScript-Bold.ttf in Resources */,
+				4B1B01112FB9115500A7E89A /* Coiny-Regular.ttf in Resources */,
+				4B1B01132FB9117800A7E89A /* Lobster-Regular.ttf in Resources */,
 				4B1B00DB2FB79C1800A7E89A /* BebasNeue-Regular.ttf in Resources */,
 				4B1B01092FB87F0E00A7E89A /* Orbitron-Bold.ttf in Resources */,
 				4B1B010A2FB87F0E00A7E89A /* Orbitron-Regular.ttf in Resources */,
@@ -358,6 +370,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ConConnect/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Conn Connect";
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need access to your photo library to add images to your convention slideshow.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -398,6 +411,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ConConnect/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Conn Connect";
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need access to your photo library to add images to your convention slideshow.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;

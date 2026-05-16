@@ -61,6 +61,9 @@ struct AppConfiguration {
         ("Bebas Neue", [
             ("Bebas Neue", "BebasNeue-Regular"),
         ]),
+        ("Coiny", [
+           ("Coiny", "Coiny-Regular"),
+        ]),
         ("Dancing Script", [
             ("Dancing Script", "DancingScript-Regular"),
             ("Dancing Script Bold", "DancingScript-Bold"),
@@ -68,8 +71,14 @@ struct AppConfiguration {
         ("Great Vibes", [
             ("Great Vibes", "GreatVibes-Regular"),
         ]),
+        ("ImperialScript", [
+            ("ImperialScript", "ImperialScript-Regular"),
+        ]),
         ("LimeLight", [
            ("LimeLight", "LimeLight-Regular"),
+        ]),
+        ("Lobster", [
+           ("Lobster", "Lobster-Regular")
         ]),
         ("Montserrat", [
             ("Montserrat Thin", "Montserrat-Thin"),

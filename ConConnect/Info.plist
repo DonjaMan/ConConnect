@@ -25,6 +25,9 @@
 		<string>Orbitron-Bold.ttf</string>
 		<string>Orbitron-Regular.ttf</string>
 		<string>Orbitron-SemiBold.ttf</string>
+		<string>ImperialScript-Regular.ttf</string>
+		<string>Lobster-Regular.ttf</string>
+		<string>Coiny-Regular.ttf</string>
 	</array>
 	<key>UILaunchScreen</key>
 	<dict>
