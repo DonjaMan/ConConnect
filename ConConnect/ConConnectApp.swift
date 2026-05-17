@@ -17,7 +17,7 @@ struct ConConnectApp: App {
             ContentView()
                 .onAppear {
                     UIDevice.current.setValue(UIInterfaceOrientation.landscapeRight.rawValue, forKey: "orientation")
-                    AppDelegate.orientationLock = .landscape
+                    AppDelegate.orientationLock = .all
                 }
         }
         .modelContainer(for: ImageItem.self)
@@ -26,7 +26,7 @@ struct ConConnectApp: App {
 
 // App Delegate for orientation locking
 class AppDelegate: NSObject, UIApplicationDelegate {
-    static var orientationLock = UIInterfaceOrientationMask.landscape
+    static var orientationLock = UIInterfaceOrientationMask.all
     
     func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
         return AppDelegate.orientationLock
