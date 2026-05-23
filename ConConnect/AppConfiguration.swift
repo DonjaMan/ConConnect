@@ -115,6 +115,12 @@ struct AppConfiguration {
     /// Enable SignUP Button ColorBeam Effect
     static let signUpButtonColorBeamEnabled: Bool = false
     
+    /// Show Logo
+    static let showLogo: Bool = false
+    
+    /// Logo Image URL
+    static let logoImageURL: String? = nil
+    
     /// Sign-up button Color
     static let signUpButtonColor = "#FFFFFF"
     
@@ -142,6 +148,8 @@ enum AppStorageKeys {
     static let signUpButtonColor = "signUpButtonColor"
     static let signUpButtonColorBeamEnabled = "signUpButtonColorBeamEnabled"
     static let signupButtonBackgroundStyle = "signupButtonBackgroundStyle"
+    static let showLogo = "showLogo"
+    static let logoImageURL = "logoImageURL"
 }
 
 /// Enum for Signup Button Backround style

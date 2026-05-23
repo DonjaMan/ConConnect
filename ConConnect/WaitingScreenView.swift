@@ -38,6 +38,8 @@ struct WaitingScreenView: View {
     @AppStorage(AppStorageKeys.signUpButtonColorBeamEnabled) private var signUpButtonColorBeamEnabled = AppConfiguration.signUpButtonColorBeamEnabled
     @AppStorage(AppStorageKeys.signupButtonBackgroundStyle) private var signupButtonBackgroundStyle = AppConfiguration.signupButtonBackgroundStyle
     @AppStorage(AppStorageKeys.bannerBackgroundStyle) private var bannerBackgroyndStyle = AppConfiguration.bannerBackgroundStyle
+    @AppStorage(AppStorageKeys.showLogo) private var showLogo = AppConfiguration.showLogo
+    @AppStorage(AppStorageKeys.logoImageURL) private var logoImageURL: String?
     
     private let config = AppConfiguration.self
     
@@ -93,36 +95,54 @@ struct WaitingScreenView: View {
             }
             .ignoresSafeArea()
             
-            // Company banner - Top center third
+            // MARK: - Company banner - Top center third
             VStack {
                 GeometryReader { geometry in
                     HStack {
                         Spacer()
-                        VStack(spacing: 8) {
-                            Text(companyName)
-                                .font(.custom(titleFont, size: companyNameSize))
-                                .foregroundStyle(.white)
-                                .shadow(color: .black.opacity(0.5), radius: 8, x: 0, y: 4)
-                                .lineLimit(2)
-                                .minimumScaleFactor(0.5)
-                            
-                            Text(companySubtitle)
-                                .font(.custom(subtitleFont, size: subtitleSize))
-                                .foregroundStyle(.white.opacity(0.9))
-                                .shadow(color: .black.opacity(0.5), radius: 6, x: 0, y: 3)
-                                .lineLimit(1)
-                                .minimumScaleFactor(0.7)
+                        HStack {
+                            if showLogo {
+                                Group {
+                                    if let filename = logoImageURL,
+                                       let uiImage = getLogoImage(filename) {
+                                        Image(uiImage: uiImage)
+                                            .resizable()
+                                            .scaledToFill()
+                                        
+                                    } else {
+                                        Image(.CC_3)
+                                            .resizable()
+                                    }
+                                }
+                                .frame(maxWidth: geometry.size.width * (bannerSize * 0.3), maxHeight: geometry.size.width * (bannerSize * 0.3))
+                                .clipShape(.rect(cornerRadius: 15))
+                                .padding(12)
+                            }
+                            VStack(spacing: 8) {
+                                Text(companyName)
+                                    .font(.custom(titleFont, size: companyNameSize))
+                                    .foregroundStyle(.white)
+                                    .shadow(color: .black.opacity(0.5), radius: 8, x: 0, y: 4)
+                                    .lineLimit(2)
+                                    .minimumScaleFactor(0.5)
+                                
+                                Text(companySubtitle)
+                                    .font(.custom(subtitleFont, size: subtitleSize))
+                                    .foregroundStyle(.white.opacity(0.9))
+                                    .shadow(color: .black.opacity(0.5), radius: 6, x: 0, y: 3)
+                                    .lineLimit(1)
+                                    .minimumScaleFactor(0.7)
+                            }
+                            .multilineTextAlignment(.center)
+                            .frame(maxWidth: geometry.size.width * bannerSize)
+                            .padding(.horizontal, 30)
+                            .padding(.vertical, 20)
                         }
-                        .multilineTextAlignment(.center)
-                        .frame(maxWidth: geometry.size.width * bannerSize)
-                        .padding(.horizontal, 30)
-                        .padding(.vertical, 20)
                         .background {
                             switch bannerBackgroyndStyle {
                             case .glass:
                                 RoundedRectangle(cornerRadius: 16)
                                     .applyGlassRect(true, color: savedColor.opacity(bannerBackroundOpacity))
-//                                    .glassEffect(.clear ,in: .rect(cornerRadius: 16))
                                     .shadow(color: .black.opacity(0.3), radius: 15, x: 0, y: 8)
                             case .frosted:
                                 RoundedRectangle(cornerRadius: 16)
@@ -141,7 +161,6 @@ struct WaitingScreenView: View {
                         }
                         Spacer()
                     }
-                    .frame(height: geometry.size.height / 3, alignment: .top)
                     .padding(.top, 50)
                 }
                 
@@ -149,7 +168,7 @@ struct WaitingScreenView: View {
             }
             .allowsHitTesting(false)
             
-            // Sign Up button overlay - Optimized for iPad Landscape
+            // MARK: - Sign Up button overlay - Optimized for iPad Landscape
             VStack {
                 Spacer()
                 
@@ -315,6 +334,10 @@ struct WaitingScreenView: View {
                 bannerBackroundOpacity = avg.contrastingBackroundOpacity2
             }
         }
+    }
+    func getLogoImage(_ filename: String) -> UIImage? {
+        let url = FileManager.documentsDirectory.appendingPathComponent(filename)
+        return UIImage(contentsOfFile: url.path)
     }
 }
 

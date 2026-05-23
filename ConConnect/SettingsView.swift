@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import PhotosUI
+import UniformTypeIdentifiers
 
 /// Optional settings screen for configuring the app
 /// Uses AppStorage to persist settings across app launches
@@ -26,8 +28,14 @@ struct SettingsView: View {
     @AppStorage(AppStorageKeys.signUpButtonColorBeamEnabled) private var signUpButtonColorBeamEnabled = AppConfiguration.signUpButtonColorBeamEnabled
     @AppStorage(AppStorageKeys.signupButtonBackgroundStyle) private var signupButtonBackgroundStyle = AppConfiguration.signupButtonBackgroundStyle
     @AppStorage(AppStorageKeys.bannerBackgroundStyle) private var bannerBackgroyndStyle = AppConfiguration.bannerBackgroundStyle
+    @AppStorage(AppStorageKeys.showLogo) private var showLogo = AppConfiguration.showLogo
+    @AppStorage(AppStorageKeys.logoImageURL) private var logoImageURL: String?
     
     @State private var showingSaveConfirmation = false
+    @State private var showFilePicker: Bool = false
+    @State private var showPhotoPicker: Bool = false
+    @State private var selectedItem: PhotosPickerItem?
+    @State private var logoRefreshID = UUID()
     var savedColor: Color {
         Color(hex: signUpButtonColor) ?? .accentColor
     }
@@ -141,6 +149,48 @@ struct SettingsView: View {
                             }
                         }
                     }
+                    Toggle(isOn: $showLogo) {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("Show Company Logo")
+                                .fontWeight(.semibold)
+                        }
+                    }
+                    HStack {
+                        Group {
+                            if let filename = logoImageURL,
+                               let uiImage = getLogoImage(filename) {
+                                Image(uiImage: uiImage)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .frame(width: 150, height: 150)
+                            } else {
+                                Image(.no)
+                                    .resizable()
+                                    .frame(width: 150, height: 150)
+                            }
+                        }
+                        .clipShape(.rect(cornerRadius: 10))
+                        .id(logoRefreshID)
+                        .padding(10)
+                        Spacer()
+                            Menu {
+                                Button {
+                                    showFilePicker.toggle()
+                                } label: {
+                                    Label("Files App", systemImage: "folder.fill")
+                                }
+                                Button {
+                                    showPhotoPicker.toggle()
+                                } label: {
+                                    Label("Photo Library", systemImage: "photo")
+                                }
+                            } label: {
+                                Text("Change Logo")
+                                    .font(.headline)
+                                    .frame(width: 125, height: 35, alignment: .center)
+                            }
+                            .buttonStyle(.glassProminent)
+                    }
                 } header: {
                     Text("Company Banner")
                 } footer: {
@@ -238,6 +288,25 @@ struct SettingsView: View {
             } message: {
                 Text("Your settings have been saved and will persist across app launches.")
             }
+            .fileImporter(
+                isPresented: $showFilePicker,
+                allowedContentTypes: [.image],
+                allowsMultipleSelection: false
+            ) { result in
+                Task {
+                    await loadImageFromFiles(result: result)
+                }
+            }
+            .photosPicker(
+                isPresented: $showPhotoPicker,
+                selection: $selectedItem,
+                matching: .images
+            )
+            .onChange(of: selectedItem) { _, newItem in
+                Task {
+                    await handlePhoto(newItem)
+                }
+            }
         }
     }
     
@@ -290,4 +359,54 @@ struct FontPickerRow: View {
 
 #Preview {
     SettingsView()
+}
+
+extension SettingsView {
+    func saveLogo(_ data: Data) -> String? {
+        
+        let fileName = "Logo.jpg"
+        let url = FileManager.documentsDirectory.appendingPathComponent(fileName)
+        
+        do {
+            try data.write(to: url)
+            return fileName
+        } catch {
+            print("Error saving image", error.localizedDescription)
+            return nil
+        }
+    }
+    
+    func getLogoImage(_ filename: String) -> UIImage? {
+        let url = FileManager.documentsDirectory.appendingPathComponent(filename)
+        return UIImage(contentsOfFile: url.path)
+    }
+    
+    private func loadImageFromFiles(result: Result<[URL], Error>) async {
+        do {
+            let urls = try result.get()
+            guard let selectedURL = urls.first else { return }
+            
+            let data = try Data(contentsOf: selectedURL)
+            if let filename = saveLogo(data) {
+                logoImageURL = filename
+                logoRefreshID = UUID()
+            }
+        } catch {
+            print("Import Error", error.localizedDescription)
+        }
+
+    }
+    
+    func handlePhoto(_ item: PhotosPickerItem?) async {
+        guard let item else { return }
+        do {
+            if let data = try await item.loadTransferable(type: Data.self),
+               let filename = saveLogo(data) {
+                logoImageURL = filename
+                logoRefreshID = UUID()
+            }
+        } catch {
+            print("Error loading Image:", error.localizedDescription)
+        }
+    }
 }
