@@ -33,7 +33,7 @@ struct AppConfiguration {
     /// Default URL to your Google Docs form or signup web page
     /// This value is used if no custom URL has been saved
     /// Example: "https://docs.google.com/forms/d/e/1FAIpQLSc.../viewform"
-    static let defaultSignUpFormURL = "https://docs.google.com/forms/d/e/YOUR_FORM_ID/viewform"
+    static let defaultSignUpFormURL = "http://donjamedia.com/ConnConnect_SampleSignIn.html"
     
     /// Default company name for banner
     static let defaultCompanyName = "Your Company Name"
