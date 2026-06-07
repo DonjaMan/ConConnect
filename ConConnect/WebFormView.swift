@@ -83,7 +83,8 @@ struct WebView: UIViewRepresentable {
     func makeUIView(context: Context) -> WKWebView {
         // Load happens here on creation; updateUIView is intentionally empty
         let webView = makeWebView(context: context)
-        if let url = URL(string: urlString) {
+        let trimmed = urlString.trimmingCharacters(in: .whitespacesAndNewlines)
+        if let url = URL(string: trimmed), !trimmed.isEmpty, url.scheme != nil {
             webView.load(URLRequest(url: url))
         } else {
             loadError = "Invalid URL"
@@ -135,8 +136,16 @@ private enum WebErrorKind {
     case tls
     case network
     case other
+    case noURL
 
     init(from description: String) {
+        let noURLPatterns = [
+            "invalid url",
+            "unsupported url",
+            "NSURLErrorUnsupportedURL",
+            "NSURLErrorBadURL",
+            "-1002", "-1000"
+        ]
         let tlsPatterns = [
             "certificate", "SSL", "TLS",
             "kCFStreamErrorDomainSSL",
@@ -160,7 +169,9 @@ private enum WebErrorKind {
         ]
 
         let lowered = description.lowercased()
-        if tlsPatterns.contains(where: { lowered.contains($0.lowercased()) }) {
+        if noURLPatterns.contains(where: { lowered.contains($0.lowercased()) }) {
+            self = .noURL
+        } else if tlsPatterns.contains(where: { lowered.contains($0.lowercased()) }) {
             self = .tls
         } else if networkPatterns.contains(where: { lowered.contains($0.lowercased()) }) {
             self = .network
@@ -174,6 +185,7 @@ private enum WebErrorKind {
         case .tls: return "lock.trianglebadge.exclamationmark"
         case .network: return "wifi.exclamationmark"
         case .other: return "exclamationmark.triangle"
+        case .noURL: return "link.badge.plus"
         }
     }
 
@@ -182,15 +194,18 @@ private enum WebErrorKind {
         case .tls: return "Secure Connection Failed"
         case .network: return "No Internet Connection"
         case .other: return "Unable to Load Form"
+        case .noURL: return "You have not entered a valid URL"
         }
     }
-
+    
     var guidance: String {
         switch self {
         case .tls:
             return "This network may be blocking secure connections. Try connecting to a different WiFi network, or use your phone's hotspot."
         case .network:
             return "Check that you're connected to WiFi and the signal is strong enough to load web pages."
+        case .noURL:
+            return "Please go to 'Settings' to enter a valid URL in the address bar."
         case .other:
             return "Something went wrong while loading the form. Please try again in a moment."
         }
@@ -234,5 +249,6 @@ private struct ErrorOverlay: View {
 }
 
 #Preview {
-    WebFormView(url: "https://docs.google.com/forms/d/e/1FAIpQLSdb7GSbQgXbAV11_5zpa8K-67-_-dQnScb9D4IDstRHBQTlfg/viewform")
+    WebFormView(url: "" /*"https://docs.google.com/forms/d/e/1FAIpQLSdb7GSbQgXbAV11_5zpa8K-67-_-dQnScb9D4IDstRHBQTlfg/viewform"*/
+    )
 }

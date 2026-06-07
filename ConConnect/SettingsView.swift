@@ -61,17 +61,20 @@ struct SettingsView: View {
                 
                 Section {
                     VStack(alignment: .leading, spacing: 8) {
-                        Text("Google Form URL")
+                        Text("Sign-Up Form URL")
                             .font(.headline)
-                        TextField("https://docs.google.com/forms/...", text: $formURL)
+                        TextField("Sign- up form URL", text: $formURL)
                             .textFieldStyle(.roundedBorder)
                             .autocapitalization(.none)
                             .keyboardType(.URL)
+                        Text("Enter the complete URL to your Google Form or signup webpage. Changes are saved automatically.")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
                     }
                 } header: {
                     Text("Sign-Up Form")
                 } footer: {
-                    Text("Enter the complete URL to your Google Form or signup webpage. Changes are saved automatically.")
+                   
                 }
                 
                 Section {
@@ -385,6 +388,11 @@ extension SettingsView {
         do {
             let urls = try result.get()
             guard let selectedURL = urls.first else { return }
+            guard selectedURL.startAccessingSecurityScopedResource() else {
+                print("Could not access file")
+                return
+            }
+            defer { selectedURL.stopAccessingSecurityScopedResource() }
             
             let data = try Data(contentsOf: selectedURL)
             if let filename = saveLogo(data) {
